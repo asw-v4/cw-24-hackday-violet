@@ -1,8 +1,9 @@
 import numpy as np
 import streamlit as st
 import seaborn as sns
-from matplotlib.colors import LinearSegmentedColormap
 import PIL.Image as Image
+
+from matplotlib.colors import LinearSegmentedColormap
 
 
 def createDummyData():
@@ -41,12 +42,13 @@ def individualDataDisplay(dummyRepoJSON):
     # filter out the selected repos
     filteredData = {k: v for k, v in dummyRepoJSON.items() if k in selectedRepos}
 
-    # 1 chart per repo, 3 charts per row
-    columns = st.columns(3)
-    for i, (repo, data) in enumerate(filteredData.items()):
-        col = columns[i % 3]
-        col.title(repo)
-        col.line_chart(data["data"])
+    # determine number of columns based on number of selected repos (max 3)
+    numCols = min(len(filteredData), 3)
+    cols = st.columns(numCols)
+    for i, (repoName, repoData) in enumerate(filteredData.items()):
+        with cols[i % numCols]:
+            # for each repo, display the data
+            st.write(f"**{repoName}**")
 
 
 def overallDataDisplay(dummyRepoJSON):
@@ -66,15 +68,12 @@ def overallDataDisplay(dummyRepoJSON):
         "custom",
         [
             st.session_state.badColour,
-            st.session_state.badColour,
-            "white",
-            st.session_state.goodColour,
             st.session_state.goodColour,
         ],
     )
-    sns.set_theme(rc={"figure.figsize": (12, 4)})
+    sns.set_theme(rc={"figure.figsize": (12, 4), "figure.facecolor": "black"})
 
-    # display seaborn heatmap on streamlit. # decrease transparency along the X-axis
+    # display seaborn heatmap on streamlit. # no surrounding whitespace
     hmp = sns.heatmap(
         avgData,
         annot=False,
@@ -87,7 +86,7 @@ def overallDataDisplay(dummyRepoJSON):
     )
 
     # save heatmap to image
-    hmp.get_figure().savefig("src/overallHealth.png")
+    hmp.get_figure().savefig("src/overallHealth.png", bbox_inches="tight")
     # load with PIL
     img = Image.open("src/overallHealth.png")
     # convert to RGBA
@@ -113,9 +112,9 @@ def sideBar():
     # Porivde 2 colour pickers for a 'Good/Positive' and 'Bad/Negative' colour
     cols1, cols2 = st.sidebar.columns(2)
     with cols1:
-        goodColour = st.color_picker("**Good**", "#00FF00")
+        goodColour = st.color_picker("**Good**", "#34C900")
     with cols2:
-        badColour = st.color_picker("**Bad**", "#FF0000")
+        badColour = st.color_picker("**Bad**", "#000000")
 
     # add to session states
     st.session_state.goodColour = goodColour
