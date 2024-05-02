@@ -28,6 +28,7 @@ class DataParser(argparse.ArgumentParser):
 
         return args
 
+
 class RepositoryParser(argparse.ArgumentParser):
     """An ArgumentParser specialised to support retrieval of repositories
     """

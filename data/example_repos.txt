@@ -1,8 +1,6 @@
 numpy/numpy
 ncas-cms/cf-python
-icenet-ai/icenet
 antarctica/pyremotenode
-jimcircadian/duff
 environmental-forecasting/model-ensembler
 dask/dask
 GreenScheduler/cats
