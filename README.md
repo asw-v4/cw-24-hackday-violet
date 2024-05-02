@@ -7,3 +7,14 @@
  * Adam Ward
  * James Byrne
  * Anne Barber
+
+## Backend usage 
+
+Set up a personal access token for github API
+  - repo:status
+  - repo_deployment
+  - public_repoAccess
+  - repo:invite
+  - read:user
+
+Make sure this is available in GITHUB_API_TOKEN for script usage - src/data
