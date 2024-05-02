@@ -14,7 +14,7 @@ REPO_ARGS=""
 for REPO in $( cat $REPO_FILE ); do
   REPO_FILENAME="${REPO##*/}"
   echo "Grabbing scorecard for $REPO"
-  [ ! -f $DATA_DIR/${REPO_FILENAME}.json ] && scorecard --repo=$REPO --checks=Maintained,Packaging --format=json >$DATA_DIR/${REPO_FILENAME}.json
+  [ ! -f $DATA_DIR/${REPO_FILENAME}.json ] && scorecard --repo=$REPO --checks=Maintained,Packaging,Contributors,CI-Tests,Code-Review --format=json >$DATA_DIR/${REPO_FILENAME}.json
   echo "Grabbing fair assessment for $REPO"
   [ ! -f $DATA_DIR/${REPO_FILENAME}.fair.json ] && python src/data/fair_api.py $REPO >$DATA_DIR/${REPO_FILENAME}.fair.json
   REPO_ARGS="$REPO_ARGS $REPO"
