@@ -17,4 +17,15 @@ Set up a personal access token for github API
   - repo:invite
   - read:user
 
-Make sure this is available in GITHUB_API_TOKEN for script usage - src/data
+Make sure this is available in GITHUB_API_TOKEN for script usage
+
+```commandline
+export GITHUB_API_TOKEN=...
+```
+
+Then run the script which will plonk some JSON to standard out, so you can redirect that straight to a file
+
+```commandline
+python src/data/gh_retrieve.py JimCircadian/duff numpy/numpy
+```
+
