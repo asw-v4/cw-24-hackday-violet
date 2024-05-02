@@ -38,13 +38,25 @@ if __name__ == "__main__":
             sc_data = json.load(fh)
 
         logging.debug(sc_data)
+
+        # Scorecard scores everything from 0-10, so we can add the same
+        # context to each:
+        scorecard_context = {
+            "valid range": [0, 10],
+            "closed interval": True,
+            "direction of health": True,  # 10 (max) is best, 0 worst
+        }
+        sc_metric_names = [
+            "Maintained", "Packaging", "Contributors", "CI-Tests", "Code-Review"
+        ]
+        sc_metrics = {name: scorecard_context for name in sc_metric_names}
         data.append({
             "metadata": dt.datetime.utcnow().isoformat(),
             "repository": {
                 "display_name": repo,
                 "url": sc_data["repo"]["name"]
             },
-            "metrics": sc_data["checks"]
+            "metrics": sc_metrics
         })
 
     print(json.dumps(data))
