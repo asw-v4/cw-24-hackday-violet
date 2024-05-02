@@ -1,0 +1,120 @@
+[
+  {
+    "metadata": "2024-05-02T14:19:12.154756",
+    "repository": {
+      "display_name": "numpy/numpy",
+      "url": "github.com/numpy/numpy"
+    },
+    "metrics": {
+      "Maintained": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "Packaging": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": -1
+      },
+      "Contributors": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "CI-Tests": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "Code-Review": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "last_modified_secs_ago": 6802,
+      "license_exists": true,
+      "readme_exists": true,
+      "open_count": 2119,
+      "closed_count": 24200
+    }
+  },
+  {
+    "metadata": "2024-05-02T14:19:12.155004",
+    "repository": {
+      "display_name": "dask/dask",
+      "url": "github.com/dask/dask"
+    },
+    "metrics": {
+      "Maintained": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "Packaging": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": -1
+      },
+      "Contributors": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "CI-Tests": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 10
+      },
+      "Code-Review": {
+        "valid range": [
+          0,
+          10
+        ],
+        "closed interval": true,
+        "direction of health": true,
+        "score": 6
+      },
+      "last_modified_secs_ago": 149962,
+      "license_exists": true,
+      "readme_exists": true,
+      "open_count": 1054,
+      "closed_count": 9767
+    }
+  }
+]

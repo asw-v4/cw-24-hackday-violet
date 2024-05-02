@@ -2,33 +2,29 @@ import numpy as np
 import streamlit as st
 import seaborn as sns
 import PIL.Image as Image
+import json
 
 from matplotlib.colors import LinearSegmentedColormap
 
 
-def createDummyData():
-    # create 3 * 24 data points
-    rawdata = np.random.randn(24, 2)
-    tagsList = ["Python", "C++", "Java", "JavaScript", "Rust", "Networking", "Security"]
-    # select a random sample of tags
-    numTags = np.random.randint(1, 5)
-    tags = np.random.choice(tagsList, numTags, replace=False)
+def processuiJSON(uiJSON):
+    """Process the JSON file to be used in the UI
+    List of dicts (one for each Repo) containing:
+    "metadata"
+    "repository"["display_name"]
+    "repository"["url"]
+    "metrics"{} # dict of metrics
 
-    dummyData = {
-        "data": rawdata,
-        "tags": tags,
-    }
-    return dummyData
+    """
+    # load the JSON file
+    with open(uiJSON, "r") as f:
+        data = json.load(f)
+    # data is list of dicts
 
+    # reorder into dict of dicts, with display_name as key
+    data = {repo["repository"]["display_name"]: repo for repo in data}
 
-def getDummyRepoInformation():
-    dummyData = {
-        "repo1": createDummyData(),
-        "repo2": createDummyData(),
-        "repo3": createDummyData(),
-        "repo4": createDummyData(),
-    }
-    return dummyData
+    return data
 
 
 def individualDataDisplay(dummyRepoJSON):
@@ -42,26 +38,36 @@ def individualDataDisplay(dummyRepoJSON):
     # filter out the selected repos
     filteredData = {k: v for k, v in dummyRepoJSON.items() if k in selectedRepos}
 
+    # get list of metrics
+    metrics = list(filteredData.values())[0]["metrics"].keys()
+
+    # add multiselect for the metrics
+    selectedMetrics = st.sidebar.multiselect(
+        "Select Metrics to Display", metrics, default=metrics
+    )
     # determine number of columns based on number of selected repos (max 3)
     numCols = min(len(filteredData), 3)
     cols = st.columns(numCols)
     for i, (repoName, repoData) in enumerate(filteredData.items()):
         with cols[i % numCols]:
             # for each repo, display the data
-            st.write(f"**{repoName}**")
+            st.header(f"**{repoName}**")
+            # display metric if selected
+            for metric in selectedMetrics:
+                # get the data for the metric
+                try:
+                    data = repoData["metrics"][metric]["score"]
+                    st.write(f"**{metric}**")
+                    # st.metrric with random into delta
+                    st.metric(label=metric, value=data, delta=np.random.uniform(-1, 1))
+                except:
+                    pass
 
 
 def overallDataDisplay(dummyRepoJSON):
     """Full Width chart showing aggregated data"""
-    # # collate all data points and average
-    allData = np.array([data["data"] for data in dummyRepoJSON.values()])
-    avgData = np.mean(allData, axis=0)
-    # average into 1 axis
-    avgData = np.mean(avgData, axis=1)
-    # expand dims to 2D
-    avgData = np.expand_dims(avgData, axis=1)
-    # rotate to horizontal
-    avgData = np.transpose(avgData)
+    # create 1*365 array of random values
+    avgData = np.random.rand(1, 365)
 
     # create non-linear continuous cmap from good and bad colours in session state
     cmap = LinearSegmentedColormap.from_list(
@@ -100,7 +106,7 @@ def overallDataDisplay(dummyRepoJSON):
     # set alpha channel of image to be the mask
     img[:, :, 3] = mask[:, :, 0]
     # display image
-    st.image(img, caption="Overall Health", use_column_width=True)
+    st.image(img, use_column_width=True)
 
 
 def sideBar():
@@ -123,16 +129,16 @@ def sideBar():
 
 def main():
     sideBar()
-    dummyRepoJSON = getDummyRepoInformation()
+    data = processuiJSON("src/data/ui.json")
     # show overall data
-    overallDataDisplay(dummyRepoJSON)
+    overallDataDisplay(data)
     st.title("RSE Software Community Health")
     st.divider()
 
     # show individual data
 
     # layout is a grid with 3 columns, with 1 chart in each column
-    individualDataDisplay(dummyRepoJSON)
+    individualDataDisplay(data)
 
 
 if __name__ == "__main__":
