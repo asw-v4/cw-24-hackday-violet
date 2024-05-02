@@ -38,8 +38,8 @@ if __name__ == "__main__":
         with open(repo_filename, "r") as fh:
             sc_data = json.load(fh)
 
-        with open(repo_filename.replace("json", "fair.json"), "r") as fh:
-            fair_data = json.load(fh)
+        #with open(repo_filename.replace("json", "fair.json"), "r") as fh:
+        #    fair_data = json.load(fh)
 
         logging.debug(sc_data)
 
@@ -53,9 +53,15 @@ if __name__ == "__main__":
         sc_metric_names = [
             "Maintained", "Packaging", "Contributors", "CI-Tests", "Code-Review"
         ]
-        sc_metrics = {name: scorecard_context for name in sc_metric_names}
-        sc_metrics.update(gh_data[repo])
 
+        sc_metrics = dict()
+        for name in sc_metric_names:
+            metric = scorecard_context.copy()
+            for sc_dat in sc_data["checks"]:
+                if sc_dat["name"] == name:
+                    metric["score"] = sc_dat["score"]
+            sc_metrics[name] = metric
+        sc_metrics.update(gh_data[repo])
 
         data.append({
             "metadata": dt.datetime.utcnow().isoformat(),

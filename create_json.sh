@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 REPO_FILE=${1}
 
