@@ -20,7 +20,7 @@ Set up a personal access token for github API
 Make sure this is available in GITHUB_API_TOKEN for script usage
 
 ```commandline
-export GITHUB_API_TOKEN=...
+export GITHUB_AUTH_TOKEN=...
 ```
 
 Then run the script which will plonk some JSON to standard out, so you can redirect that straight to a file

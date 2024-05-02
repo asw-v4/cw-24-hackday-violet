@@ -13,7 +13,7 @@ from cli import RepositoryParser
 if __name__ == "__main__":
     args = RepositoryParser().parse_args()
     # using an access token
-    auth = Auth.Token(os.environ["GITHUB_API_TOKEN"])
+    auth = Auth.Token(os.environ["GITHUB_AUTH_TOKEN"])
     g = Github(auth=auth)
 
     data = dict()
@@ -39,6 +39,15 @@ if __name__ == "__main__":
             data[repo]["readme_exists"] = repository.get_readme() is not None
         except github.UnknownObjectException:
             data[repo]["readme_exists"] = False
+
+        # computeOpenIssueRatio from isitmaintained
+        #   - https://github.com/mnapoli/IsItMaintained/blob/cb451435e5232496600a9747722db4942fd88041/src/Maintained/Statistics/StatisticsComputer.php#L103
+        try:
+            data[repo]["open_count"] = repository.get_issues(state="open").totalCount
+            data[repo]["closed_count"] = repository.get_issues(state="closed").totalCount
+        except github.GithubException:
+            data[repo]["open_count"] = -1
+            data[repo]["closed_count"] = -1
 
     g.close()
     print(json.dumps(data))
