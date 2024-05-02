@@ -26,7 +26,6 @@ export GITHUB_AUTH_TOKEN=...
 Then run the script which will plonk some JSON to standard out, so you can redirect that straight to a file
 
 ```commandline
-python src/data/gh_retrieve.py numpy/numpy ... >data/github.json
-./src/data/scorecard.sh >data/metrics.json
+./create_json.sh data/<a text file with a list of repos in user/repo form>
 ```
 
