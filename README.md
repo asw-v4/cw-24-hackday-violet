@@ -1,4 +1,4 @@
-# Visualisation(s) of the health/status of software or of the RSE community 
+# SoftAware: Visual Software Health Check for GitHub Repositories
 
 ## CW24 Hack Day project by Team Violet
 
