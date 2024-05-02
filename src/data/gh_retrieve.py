@@ -1,3 +1,4 @@
+import datetime as dt
 import json
 import logging
 import os
@@ -20,14 +21,13 @@ if __name__ == "__main__":
     for repo in args.repositories:
         data[repo] = dict()
 
-        #logging.info("Getting {}".format(repo))
         repository = g.get_repo(repo, lazy=True)
 
         try:
             most_recent_commit = repository.get_commits().reversed.get_page(0)[0]
-            data[repo]["last_modified"] = most_recent_commit.stats.last_modified
+            data[repo]["last_modified_secs_ago"] = int((dt.datetime.now(dt.timezone.utc) - most_recent_commit.last_modified_datetime).total_seconds())
         except github.GithubException:
-            data[repo]["last_modified"] = None
+            data[repo]["last_modified_secs_ago"] = None
 
         # Getting a bit narly with repeated code, address
         try:
